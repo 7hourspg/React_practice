@@ -3,6 +3,7 @@ import axios from "axios";
 import "./App.css";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
+import {v4 as uuidv4} from "uuid";
 
 function App() {
   const [data, setData] = useState([]);
@@ -13,23 +14,38 @@ function App() {
   };
   useEffect(() => {
     handleData();
-  }, [data]);
+  }, []);
 
   const handleSubmit = () => {
-    let date = "24/02/23";
+    let date = new Date();
+    let nameArr = first.split(" ");
+    let Day = date.getDate();
+    let Month = date.getMonth()+1;
+    let Year = date.getFullYear();
+    let completeDate=`${Day}/${Month}/${Year}`
+
     let status = false;
+    let id = uuidv4();
     let dp =
       "https://images.pexels.com/photos/11201518/pexels-photo-11201518.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
 
-    axios.post("http://localhost:8080/data", {
-      id: 4,
-      firstName: first,
-      lastName: first,
-      date,
-      title,
-      status,
-      dp,
-    });
+    axios
+      .post("http://localhost:8080/data", {
+        id,
+        firstName: nameArr[0],
+        lastName: nameArr[1],
+        date:completeDate,
+        title,
+        status,
+        dp,
+      })
+      .then(() => {
+        handleData();
+      });
+  };
+
+  const handleDelte = (id) => {
+    axios.delete(`http://localhost:8080/data/${id}`).then(() => handleData());
   };
 
   return (
@@ -64,13 +80,14 @@ function App() {
                 <th>Title</th>
                 <th>Date</th>
                 <th>Status</th>
+                <th>*</th>
               </tr>
             </thead>
             <tbody>
-              {data.map((item) => {
+              {data.map((item, i) => {
                 return (
                   <tr key={item.id}>
-                    <td>{item.id}</td>
+                    <td>{i + 1}</td>
                     <td>{item.firstName}</td>
                     <td>{item.lastName}</td>
                     <td>{item.title}</td>
@@ -81,6 +98,14 @@ function App() {
                       ) : (
                         <Button variant="warning">Pending</Button>
                       )}
+                    </td>
+                    <td>
+                      <Button
+                        variant="danger"
+                        onClick={() => handleDelte(item.id)}
+                      >
+                        Delete
+                      </Button>
                     </td>
                   </tr>
                 );
