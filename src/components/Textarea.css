@@ -1,0 +1,42 @@
+.Container {
+     width: 1400px;
+     /* border: 2px solid red; */
+     margin: 2rem auto;
+}
+.Container .wrapper {
+     /* margin: 0 auto; */
+     display: flex;
+
+}
+.wrapper .leftPane {
+     width: 80px;
+     height: 120px;
+     /* border: 2px solid black; */
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+}
+
+.leftPane .userIcon {
+  padding: 1rem 1.2rem  ;
+  background-color: rgba(0, 0, 0, 0.254);
+
+}
+
+.name{
+     text-align: left;
+     width: 100%;
+     font-weight: 600;
+}
+.wrapper .rightPane{
+    /* background-color: red; */
+}
+.rightPane .textarea{
+     /* width: 30rem; */
+     /* background-color: red; */
+}
+.bottom{
+     display: flex;
+     width: 100%;
+     justify-content: space-between;
+}
